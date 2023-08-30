@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for vectordbpdf on 2023-08-29T21:55:33+02:00
+# fly.toml app configuration file generated for vectordbhtml on 2023-08-30T03:28:33+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "vectordbpdf"
+app = "vectordbhtml"
 primary_region = "fra"
 kill_signal = "SIGINT"
 kill_timeout = "5s"

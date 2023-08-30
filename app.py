@@ -22,7 +22,7 @@ def make_chain():
 
     vector_store = Chroma(
         client=persistent_client,
-        collection_name="manus",
+        collection_name="html",
         embedding_function=embedding,
     )
 

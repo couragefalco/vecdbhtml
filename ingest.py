@@ -8,11 +8,11 @@ import os
 load_dotenv()
 openai_api_key: str = os.getenv("OPENAI_API_KEY")
 
-def read_from_csv(csv_path: str) -> list[Document]:
+def read_from_csv_adapted(csv_path: str) -> list[Document]:
     """
-    Reads the CSV file and converts its content into a list of Document objects.
+    Reads the adapted CSV file and converts its content into a list of Document objects.
 
-    :param csv_path: The path to the CSV file.
+    :param csv_path: The path to the adapted CSV file.
     :return: A list of Document objects.
     """
     documents = []
@@ -20,11 +20,11 @@ def read_from_csv(csv_path: str) -> list[Document]:
         reader = csv.DictReader(csvfile)
         for row in reader:
             doc = Document(
-                page_content=row['page_content'],
+                page_content=row['text_chunk'],
                 metadata={
-                    "page_number": int(row['page_number']),
-                    "chunk": int(row['chunk']),
-                    "source": row['source'],
+                    "page_number": 1,  # Placeholder
+                    "chunk": 1,  # Placeholder
+                    "source": "processed_embeddings.csv",  # Placeholder
                     # Add other metadata fields if needed
                 }
             )
@@ -33,15 +33,15 @@ def read_from_csv(csv_path: str) -> list[Document]:
 
 if __name__ == "__main__":
     # Step 1: Read from CSV
-    csv_path = "processed_pdf.csv"
-    document_chunks = read_from_csv(csv_path)
+    csv_path_adapted = "processed_embeddings.csv"
+    document_chunks = read_from_csv_adapted(csv_path_adapted)
 
     # Step 3 + 4: Generate embeddings and store them in DB
     embeddings = OpenAIEmbeddings()
     vector_store = Chroma.from_documents(
         document_chunks,
         embeddings,
-        collection_name="manus",
+        collection_name="html",
         persist_directory="chroma",
     )
 
@@ -50,6 +50,3 @@ if __name__ == "__main__":
 
     # Number of documents in the vector store and DB written 
     print(f"Number of Document Chunks: {len(document_chunks)}")
-
-    
-
